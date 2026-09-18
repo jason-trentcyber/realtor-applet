@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Listing Photo Saver",
+  "description": "Saves a real-estate listing's photo gallery as one zip — realtor.com, Zillow, homes.com. Personal use: saves the photos the page already loaded, for your own use.",
+  "version": "0.1.0",
+  "version_name": "0.1.0 (scaffold)",
+  "permissions": ["activeTab", "scripting", "declarativeContent", "downloads"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.realtor.com/realestateandhomes-detail/*",
+        "https://www.zillow.com/homedetails/*",
+        "https://www.homes.com/property/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "action": { "default_popup": "popup.html" },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

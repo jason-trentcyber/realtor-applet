@@ -1,0 +1,48 @@
+name: pr-lint
+
+on:
+  pull_request:
+    types: [opened, edited, labeled, unlabeled, synchronize, reopened]
+
+permissions:
+  pull-requests: read
+  contents: read
+
+jobs:
+  pr-lint:
+    # Dependabot is exempt: bot identity is the provenance (ADR-0005 §2).
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check agent label and Model line
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const ALLOWED_AGENT_LABELS = ['agent:human', 'agent:claude-code', 'agent:hermes'];
+            const pr = context.payload.pull_request;
+            const errors = [];
+
+            const labelNames = (pr.labels || []).map((l) => l.name);
+            const agentLabels = labelNames.filter((name) => name.startsWith('agent:'));
+
+            if (agentLabels.length === 0) {
+              errors.push(`No "agent:*" label found. Add exactly one of: ${ALLOWED_AGENT_LABELS.join(', ')}.`);
+            } else if (agentLabels.length > 1) {
+              errors.push(`Found ${agentLabels.length} "agent:*" labels (${agentLabels.join(', ')}). Exactly one is required.`);
+            } else if (!ALLOWED_AGENT_LABELS.includes(agentLabels[0])) {
+              errors.push(`Label "${agentLabels[0]}" is not a recognized agent label. Use one of: ${ALLOWED_AGENT_LABELS.join(', ')}.`);
+            }
+
+            const body = pr.body || '';
+            const modelLineMatch = body.match(/^Model:\s*(\S.*)?$/im);
+            if (!modelLineMatch) {
+              errors.push('No "Model:" line found. Add "Model: <model-id>" in the ## Model section.');
+            } else {
+              const value = (modelLineMatch[1] || '').trim();
+              const placeholder = /^(<.*>|todo|tbd)$/i;
+              if (!value || placeholder.test(value)) {
+                errors.push(`The "Model:" line is not filled in (found "${modelLineMatch[0].trim()}").`);
+              }
+            }
+
+            if (errors.length > 0) core.setFailed(errors.join('\n'));

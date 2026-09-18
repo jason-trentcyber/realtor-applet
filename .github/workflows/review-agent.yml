@@ -1,0 +1,114 @@
+name: review-agent
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: review-agent-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+    steps:
+      - name: Decide whether this PR needs review
+        id: check
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            // Drafts skip. Dependabot skips: bot identity is the provenance
+            // (ADR-0005 §2), and its runs cannot read Actions secrets so the
+            // key would be empty anyway. Everything else is reviewed.
+            const pr = context.payload.pull_request;
+            const isDependabot = pr.user.login === 'dependabot[bot]';
+            core.setOutput('should_run', (!pr.draft && !isDependabot).toString());
+
+  review:
+    needs: gate
+    if: needs.gate.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      MODEL: gemini-3.6-flash
+      FALLBACK_MODEL: gemini-3.5-flash
+      MAX_BYTES: 150000
+    steps:
+      - name: Check out PR
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      - name: Build capped diff and changed-files list
+        run: |
+          set -euo pipefail
+          BASE="origin/${GITHUB_BASE_REF}"
+          git diff "${BASE}...HEAD" > full.diff
+          git diff --name-only "${BASE}...HEAD" > changed_files.txt
+          if [ "$(wc -c < full.diff)" -gt "$MAX_BYTES" ]; then
+            head -c "$MAX_BYTES" full.diff | head -n -1 > diff.txt
+            TRUNCATED=true
+          else
+            cp full.diff diff.txt
+            TRUNCATED=false
+          fi
+          echo "TRUNCATED=${TRUNCATED}" >> "$GITHUB_ENV"
+          echo "Full diff: $(wc -c < full.diff) bytes" >> "$GITHUB_STEP_SUMMARY"
+
+      # One full-context Gemini request: rubric + the entire context pack +
+      # the diff. No tool use, no second round trip. See ADR-0005 §3.
+      - name: Run review agent (Gemini Flash, full context)
+        id: review
+        env:
+          TRUNCATED: ${{ env.TRUNCATED }}
+        run: node .github/scripts/review-agent.mjs
+
+      - name: Upload raw review JSON
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: review-json-${{ github.event.pull_request.number }}-${{ github.run_attempt }}
+          path: review.json
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Post review and enforce blocking findings
+        if: always() && steps.review.outcome != 'skipped'
+        id: post
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            let raw;
+            try { raw = JSON.parse(fs.readFileSync('review.json', 'utf8')); }
+            catch (e) { core.setFailed(`No review JSON to post: ${e.message}`); return; }
+            if (raw.runtime_error) { core.setFailed(raw.runtime_error); return; }
+            const summary = raw.summary || '(no summary)';
+            const findings = Array.isArray(raw.findings) ? raw.findings : [];
+            const blocking = findings.filter((f) => f.severity === 'blocking');
+            const suggestions = findings.filter((f) => f.severity !== 'blocking');
+            const render = (items) => items.map((f) => {
+              const loc = f.line ? `${f.file}:${f.line}` : f.file;
+              return `- **[rubric ${f.rubric_item}]** \`${loc}\` — ${f.message}\n  Fix: ${f.fix}`;
+            }).join('\n');
+            let body = `**Review summary:** ${summary}\n\n_engine: ${raw.model || 'Gemini Flash'}, full-context, one request (ADR-0005)_`;
+            if (blocking.length) body += `\n\n### Blocking\n${render(blocking)}`;
+            if (suggestions.length) body += `\n\n### Suggestions\n${render(suggestions)}`;
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner, repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              event: blocking.length ? 'REQUEST_CHANGES' : 'COMMENT',
+              body,
+            });
+            if (blocking.length > 0) core.setFailed(`review-agent found ${blocking.length} blocking finding(s)`);

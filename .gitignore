@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.zip
+.env
+*.log
+review.json
+prompt.txt
+.DS_Store
