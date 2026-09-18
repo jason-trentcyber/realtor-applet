@@ -2,6 +2,7 @@
   "name": "realtor-applet",
   "private": true,
   "version": "0.1.0",
+  "packageManager": "pnpm@10.34.5",
   "description": "Listing Photo Saver — Chrome extension that saves a real-estate listing's photo gallery as one zip (realtor.com, Zillow, homes.com).",
   "files": ["dist"],
   "scripts": {
