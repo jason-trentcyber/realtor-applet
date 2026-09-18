@@ -37,6 +37,7 @@ jobs:
     env:
       GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
       MODEL: gemini-3.6-flash
+      FALLBACK_MODEL: gemini-3.5-flash
       MAX_BYTES: 150000
     steps:
       - name: Check out PR
@@ -101,7 +102,7 @@ jobs:
               const loc = f.line ? `${f.file}:${f.line}` : f.file;
               return `- **[rubric ${f.rubric_item}]** \`${loc}\` — ${f.message}\n  Fix: ${f.fix}`;
             }).join('\n');
-            let body = `**Review summary:** ${summary}\n\n_engine: Gemini 2.5 Flash, full-context (ADR-0005)_`;
+            let body = `**Review summary:** ${summary}\n\n_engine: ${raw.model || 'Gemini Flash'}, full-context, one request (ADR-0005)_`;
             if (blocking.length) body += `\n\n### Blocking\n${render(blocking)}`;
             if (suggestions.length) body += `\n\n### Suggestions\n${render(suggestions)}`;
             await github.rest.pulls.createReview({

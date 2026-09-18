@@ -8,29 +8,44 @@
 import fs from 'node:fs';
 
 const API_KEY = process.env.GOOGLE_API_KEY;
-const MODEL = process.env.MODEL || 'gemini-3.6-flash';
-const MAX_RETRIES = 4;
+const PRIMARY = process.env.MODEL || 'gemini-3.6-flash';
+// Fallback when the primary is overloaded (503s on every retry). Same family,
+// same free tier; the review comment names whichever model actually answered.
+const FALLBACK = process.env.FALLBACK_MODEL || 'gemini-3.5-flash';
+const MAX_RETRIES = 5;
+let usedModel = PRIMARY;
 
-async function geminiFetch(payload) {
+async function callModel(model, payload) {
   let lastDetail = '';
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL)}:generateContent?key=${API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${API_KEY}`,
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) },
     );
     const body = await res.text();
     if (res.ok) return body;
     let detail = body;
     try { detail = JSON.parse(body)?.error?.message || body; } catch {}
-    lastDetail = `Gemini API error (HTTP ${res.status}): ${detail}`;
-    // 429 (rate/quota) and 5xx (transient) are retryable; 4xx otherwise is not.
+    lastDetail = `Gemini API error (HTTP ${res.status}, ${model}): ${detail}`;
+    // 429 (rate/quota) and 5xx (transient) are retryable; other 4xx are not.
     const retryable = res.status === 429 || res.status >= 500;
     if (!retryable) break;
-    const wait = 2000 * 2 ** (attempt - 1); // 2s, 4s, 8s, 16s
+    const wait = 5000 * 2 ** (attempt - 1); // 5s, 10s, 20s, 40s, 80s  (~2.5 min total)
     console.error(`[retry ${attempt}/${MAX_RETRIES}] ${lastDetail}; waiting ${wait / 1000}s`);
     await new Promise((r) => setTimeout(r, wait));
   }
   throw new Error(lastDetail);
+}
+
+async function geminiFetch(payload) {
+  try {
+    return await callModel(PRIMARY, payload);
+  } catch (e) {
+    if (!FALLBACK || FALLBACK === PRIMARY) throw e;
+    console.error(`${e.message}\n-> falling back to ${FALLBACK}`);
+    usedModel = FALLBACK;
+    return await callModel(FALLBACK, payload);
+  }
 }
 
 async function main() {
@@ -106,8 +121,9 @@ ${diff}
     process.exit(1);
   }
   const parsed = JSON.parse(text);
+  parsed.model = usedModel;
   fs.writeFileSync('review.json', JSON.stringify(parsed, null, 2));
-  console.log(`review written: ${(parsed.findings || []).length} findings for model ${MODEL}`);
+  console.log(`review written: ${(parsed.findings || []).length} findings for model ${usedModel}`);
 }
 
 function collectContext() {
