@@ -8,7 +8,7 @@ The repository is also a second instance of the AI-first SDLC first built in fro
 
 ## 2. Functional
 
-- F1 Activation: the toolbar action is enabled only on detail-page URLs (ADR-0001 lists the patterns). Everywhere else it is disabled and does nothing.
+- F1 Activation: the toolbar action is enabled only on detail-page URLs (ADR-0001 lists the patterns). Everywhere else it is disabled: the icon is desaturated and the popup, if opened, says the page is not a recognised listing. (Chrome MV3 still opens a disabled action's popup, so "does the popup open" is not the test — `chrome.action.isEnabled(tabId)` from the service-worker console is. Verified 2026-09-18 on realtor.com's home page: `false`.)
 - F2 Extraction: an adapter per site returns `{ site, listingId, address, photos[] }`. JSON embedded in the page is the primary source; the gallery DOM is the fallback (ADR-0002).
 - F3 Largest size: every photo URL is rewritten to the largest size the site's CDN serves, per the site's documented rule (ADR-0002).
 - F4 Zip: `<address-slug>_<site>_<listingId>.zip` containing `01.jpg … NN.jpg` in gallery order and `listing.json` (source URL, captured-at, address, each photo's original URL, final URL, HTTP status, bytes).
