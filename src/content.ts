@@ -1,7 +1,7 @@
 // Content script (ADR-0001 §4). Runs on detail pages, listens for the popup's
-// probe/download messages. The download path (fetch -> fflate zip -> <a download>
-// with chrome.downloads fallback) is the realtor milestone; this scaffold only
-// answers probe so the popup has a working count to render.
+// probe/download messages. Probe runs the adapter against the live document;
+// the download path (fetch -> fflate zip -> <a download> with chrome.downloads
+// fallback) is the next PR in the realtor milestone.
 
 import { findAdapterForUrl } from './adapters';
 
@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   const url = msg.url as string;
   const adapter = findAdapterForUrl(url);
   if (!adapter) { sendResponse({ active: false, found: 0, listingId: '' } as ProbeResponse); return true; }
-  // Extract against the real document. For the realtor milestone this returns 0.
-  sendResponse({ active: true, found: 0, listingId: '' } as ProbeResponse);
+  const listing = adapter.extract(document);
+  sendResponse({ active: true, found: listing.photos.length, listingId: listing.listingId } as ProbeResponse);
   return true;
 });

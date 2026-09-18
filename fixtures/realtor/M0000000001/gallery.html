@@ -1,0 +1,11 @@
+<!-- Human-captured DOM slice, 2026-09-18: the first two hero-carousel slides
+     of a realtor.com detail page. Photo hash replaced with deadbeef…, alt/title
+     stripped, styled-component class names left as captured. The gallery sits
+     next to an unrelated "saved homes" widget that uses the same CDN, which is
+     why the adapter scopes to [data-testid="photo-slide"]. -->
+<ul>
+<li aria-hidden="false" data-testid="photo-slide" data-photo-index="0" class="sc-8c7cb438-0 bsyraL photo-slide"><button tabindex="0" aria-label="View all listing photos" class="sc-8c7cb438-1 lJFIN hero-lite-photo-gallery-button"><img alt="photo" src="https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2014259136rd-w960_h720.webp" fetchpriority="high" loading="eager" elementtiming="ldp-modal-hero" style="width: 100%;"></button></li>
+<li aria-hidden="true" data-testid="photo-slide" data-photo-index="1" class="sc-8c7cb438-0 bsyraL photo-slide"><button tabindex="-1" aria-label="View all listing photos" class="sc-8c7cb438-1 lJFIN hero-lite-photo-gallery-button"><img alt="photo" src="https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1400713529rd-w960_h720.webp" style="width: 100%;"></button></li>
+</ul>
+<!-- Unrelated saved-homes widget (different listing hash) that must NOT be picked up. -->
+<ul class="user-saved_body-element"><li class="user-saved_list-element"><a href="#"><img alt="photo" class="user-saved_icon" src="https://ap.rdcpix.com/0123456789abcdef0123456789abcdefl-m4275158845s.jpg"></a></li></ul>

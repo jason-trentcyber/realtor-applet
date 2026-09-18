@@ -58,21 +58,11 @@ The owning ADR for each directory is in `CLAUDE.md`. Read it before editing.
 - Words to avoid in features, issues, and (especially) visible copy: "scrape", "scraper", "bulk", "download all", "crawler" (0003 §6).
 - Do not commit `dist/`, lockfile churn unrelated to your change, or full page HTML.
 
-## Console snippet for fixture capture (v1, to be refined per site)
+## Console snippets for fixture capture
 
-Run on the listing page (this is the human's browser, not an agent's):
+Run on the listing page in the human's browser, never an agent's. One snippet per site, kept next to the fixtures; each prunes to what the adapter reads and replaces the photo hash and address with fake values before anything reaches the clipboard.
 
-```js
-// 1. listing JSON: pull the object the site embeds and prune to the photo array.
-// In future this becomes adapter-aware per site; today it is a starting scaffold:
-const nd = document.getElementById('__NEXT_DATA__');
-const site = location.hostname.replace(/^www\./,'');
-const out = { capturedFor: site, url: location.href, data: nd ? JSON.parse(nd.textContent) : null };
-// 2. anonymise: replace the street address in `out` with "123 Away St", remove
-//    names/phones/emails (regex here). Verify before copy.
-// 3. copy: copy(out) and save as fixtures/<site>/listing.json in the repo.
-// 4. gallery DOM fallback: copy(document.querySelector('ul.media-stream')?.outerHTML
-//    || document.querySelector('[data-testid=gallery]')?.outerHTML || '') as gallery.html.
-```
+- realtor.com: `fixtures/realtor/capture.js` → `next-data.json` + `gallery.html` under `fixtures/realtor/M<10 digits>/`.
+- Zillow, homes.com: written with those milestones (the realtor one is the template).
 
-The next milestone (realtor adapter) turns this into one press-and-paste per site with site-specific pruning.
+Before committing, read the paste: no street name, no person's name, no real photo hash, no key the adapter does not read.

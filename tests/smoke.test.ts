@@ -16,7 +16,9 @@ describe('adapter registry', () => {
 });
 
 describe('realtor CDN upsizing', () => {
-  it('strips the size suffix from an ap.rdcpix.com URL', () => {
-    expect(toRealtorLargest('https://ap.rdcpix.com/abc123def/1-w480_h360.jpg')).toBe('https://ap.rdcpix.com/abc123def/1.jpg');
+  it('rewrites the size token on an ap.rdcpix.com URL (full cases in realtor.test.ts)', () => {
+    expect(toRealtorLargest('https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1s.jpg')).toBe(
+      'https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1rd-w2048_h1536.jpg',
+    );
   });
 });

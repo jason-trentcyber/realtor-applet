@@ -2,6 +2,8 @@
 
 Status: decided 2026-09-18.
 
+Amended 2026-09-18 (status note, decision clauses unchanged): the Context paragraph below guessed realtor.com's size token as a `-w480_h360` suffix. The first human-captured fixture (`fixtures/realtor/M0000000001/`) shows the real shape is `ap.rdcpix.com/<32 hex>l-m<id>` followed by a size token — `s.jpg` in the embedded JSON, `rd-w<W>_h<H>.(webp|jpg)` in the DOM, `rd-w2048_h1536.jpg` the largest served. §3 already required the rule to be a fixture-backed pure function, which is what caught the guess. The gallery JSON path is `props.pageProps.initialReduxState.propertyDetails.photos[].href`; `augmented_gallery` is the same photos bucketed by room and is ignored.
+
 ## Context
 The gallery DOM on all three sites is lazy: only photos that have scrolled into view exist as `<img>`/`<source>` nodes, and they carry thumbnail-sized URLs. The Zillow gist works around this by instructing the user to "scroll through all images first" and then taking the last `srcset` entry. That is fragile and manual.
 
