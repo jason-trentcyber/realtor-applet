@@ -1,0 +1,422 @@
+{
+  "_fixture": {
+    "site": "realtor",
+    "capturedBy": "human, own browser, 2026-09-18",
+    "anonymised": "photo hash -> deadbeef\u2026, address -> fake, tags dropped, all other propertyDetails keys pruned",
+    "source": "#__NEXT_DATA__ pruned to props.pageProps.initialReduxState.propertyDetails (keys the adapter reads)",
+    "domRenditionVariantsSeenOnPage": [
+      "l-m<N>rd-w480_h360.webp",
+      "l-m<N>rd-w960_h720.webp",
+      "l-m<N>rd-w1280_h960.webp",
+      "l-m<N>rd-w2048_h1536.webp",
+      "l-m<N>rd-w2048_h1536.jpg"
+    ]
+  },
+  "props": {
+    "pageProps": {
+      "initialReduxState": {
+        "propertyDetails": {
+          "property_id": "0000000001",
+          "listing_id": "0000000001",
+          "photo_count": 55,
+          "location": {
+            "address": {
+              "line": "123 Away St",
+              "city": "Springfield",
+              "state_code": "XX",
+              "postal_code": "00000",
+              "state": "Nowhere"
+            }
+          },
+          "photos": [
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2014259136s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1400713529s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m685861596s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m3032283791s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2167995741s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m3342134967s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m717213559s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2148091022s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1895573986s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1784542197s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m665232613s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m87657828s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1243938575s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2686730665s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2012173173s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m4079077412s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m3785324930s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m472384649s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2371826838s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m3009248679s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2533669563s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1301577688s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m777558105s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1137041450s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1781789921s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2743458667s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1548835784s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m552276495s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m339237185s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m4023205313s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m692424138s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1788851795s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2124177118s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m4078706307s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m3128814771s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1010436620s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m4080933415s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m3380245298s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2805066156s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m482636063s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1375272512s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2787861033s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m3161721675s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m3336346364s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2859448127s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1235166648s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m509210754s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m2966736789s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1373754539s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1613176027s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m186602140s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m98118350s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m1174219846s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m4264990051s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            },
+            {
+              "title": null,
+              "description": null,
+              "href": "https://ap.rdcpix.com/deadbeefdeadbeefdeadbeefdeadbeefl-m3491735409s.jpg",
+              "type": "realtordotcom_mls_listing_image",
+              "tags": []
+            }
+          ]
+        }
+      }
+    }
+  }
+}
