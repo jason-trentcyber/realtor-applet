@@ -89,7 +89,6 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const core = require('@actions/core');
             let raw;
             try { raw = JSON.parse(fs.readFileSync('review.json', 'utf8')); }
             catch (e) { core.setFailed(`No review JSON to post: ${e.message}`); return; }
