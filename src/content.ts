@@ -80,7 +80,13 @@ chrome.runtime.onMessage.addListener((msg: Message, _sender, sendResponse) => {
       return true;
     }
     const listing = adapter.extract(document);
-    sendResponse({ active: true, site: adapter.site, found: listing.photos.length, listingId: listing.listingId } satisfies ProbeResponse);
+    sendResponse({
+      active: true,
+      site: adapter.site,
+      found: listing.photos.length,
+      listingId: listing.listingId,
+      ...(listing.expectedCount ? { expectedCount: listing.expectedCount } : {}),
+    } satisfies ProbeResponse);
     return true;
   }
   if (msg?.type === 'download') {

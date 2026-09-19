@@ -14,7 +14,7 @@ The repository is also a second instance of the AI-first SDLC first built in fro
 - F4 Zip: `<address-slug>_<site>_<listingId>.zip` containing `01.jpg … NN.jpg` in gallery order and `listing.json` (source URL, captured-at, address, each photo's original URL, final URL, HTTP status, bytes).
 - F5 Resilience: a photo that fails to fetch is skipped and recorded in `listing.json`; the zip still saves. The popup reports "N of M saved".
 - F6 Drift: zero photos on a matching URL shows "Layout changed on <site>" and a link that opens a prefilled GitHub issue containing the page URL and extension version only.
-- F7 Popup: photo count before download, progress during, result after. No settings in v1.
+- F7 Popup: photo count before download, progress during, result after. No settings in v1. On a site with no embedded photo list (homes.com), when the page states more photos than are loaded, the popup says so and asks the user to open the site's photo viewer first (ADR-0002 status note 2026-09-19).
 
 ## 3. Non-functional
 

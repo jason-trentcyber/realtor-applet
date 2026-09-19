@@ -11,7 +11,7 @@ describe('adapter registry', () => {
     expect(findAdapterForUrl('https://www.realtor.com/homes-for-sale')).toBeUndefined();
   });
   it('does not match a site with no adapter', () => {
-    expect(findAdapterForUrl('https://www.homes.com/property/123')).toBeUndefined();
+    expect(findAdapterForUrl('https://www.redfin.com/XX/Springfield/123-Away-St/home/1')).toBeUndefined();
   });
 });
 
