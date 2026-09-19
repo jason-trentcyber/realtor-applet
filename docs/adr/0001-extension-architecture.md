@@ -1,6 +1,6 @@
 # ADR-0001: Extension architecture
 
-Status: decided 2026-09-18.
+Status: decided 2026-09-18. One clause superseded 2026-09-19 by ADR-0007: the "Rejected: fetch in the service worker" entry and the "no `host_permissions`" consequence no longer hold for CDNs that refuse page-origin fetch (homes.com). Everything else stands.
 
 ## Context
 The seed for this project is two DevTools console snippets — one for realtor.com, one for Zillow (the public "Zillow Image Downloader" gist) — that select gallery `<img>`/`<source>` elements, `fetch()` each URL from the page's own origin, and trigger downloads. They prove two things: the image CDNs answer same-origin `fetch()` from the listing page without extra headers, and the download path needs nothing beyond `<a download>`. They also share three weaknesses: the user must scroll the whole gallery first so lazy images exist in the DOM, each photo is a separate download rather than one archive, and there is no notion of "which site am I on".

@@ -5,8 +5,8 @@
 // worker as the fallback. Nothing is injected into the page.
 
 import { findAdapterForUrl } from './adapters';
-import { buildManifest, buildZip, fetchAll, zipName } from './download';
-import type { DownloadResponse, Message, ProbeResponse } from './messages';
+import { buildManifest, buildZip, fetchAll, zipName, type FetchLike } from './download';
+import type { DownloadResponse, FetchPhotoResponse, Message, ProbeResponse } from './messages';
 
 function zipBlob(bytes: Uint8Array): Blob {
   // TS 5.7+ types Uint8Array over ArrayBufferLike; Blob wants a plain ArrayBuffer view.
@@ -46,6 +46,22 @@ async function saveViaDownloadsApi(bytes: Uint8Array, filename: string): Promise
   if (!res?.ok) throw new Error(res?.error ?? 'chrome.downloads failed');
 }
 
+/** ADR-0007: fetch through the service worker for CDNs that refuse page-origin fetch. */
+const fetchViaWorker: FetchLike = async (url) => {
+  const res = (await chrome.runtime.sendMessage({ type: 'fetch-photo', url } satisfies Message)) as FetchPhotoResponse | undefined;
+  if (!res) throw new Error('no response from service worker');
+  if (!res.ok) {
+    if (res.error) throw new Error(res.error);
+    return { ok: false, status: res.status, arrayBuffer: async () => new ArrayBuffer(0) };
+  }
+  const bin = atob(res.base64 ?? '');
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return { ok: true, status: res.status, arrayBuffer: async () => bytes.buffer as ArrayBuffer };
+};
+
+const fetchViaPage: FetchLike = (u) => fetch(u, { credentials: 'omit' });
+
 async function download(url: string): Promise<DownloadResponse> {
   const adapter = findAdapterForUrl(url);
   if (!adapter) return { ok: false, saved: 0, total: 0, filename: '', error: 'Not a listing page' };
@@ -53,7 +69,8 @@ async function download(url: string): Promise<DownloadResponse> {
   const filename = zipName(listing);
   if (listing.photos.length === 0) return { ok: false, saved: 0, total: 0, filename, error: 'No photos found' };
 
-  const results = await fetchAll(listing.photos, (u) => fetch(u, { credentials: 'omit' }), (done, total) => {
+  const fetchFn = adapter.fetchVia === 'worker' ? fetchViaWorker : fetchViaPage;
+  const results = await fetchAll(listing.photos, fetchFn, (done, total) => {
     void chrome.runtime.sendMessage({ type: 'progress', done, total } satisfies Message).catch(() => undefined);
   });
   const manifest = buildManifest(listing, results, {

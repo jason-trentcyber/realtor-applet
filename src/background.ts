@@ -3,6 +3,7 @@
 // to content scripts). No fetching, no page logic.
 
 import type { Message } from './messages';
+import type { FetchPhotoResponse } from './messages';
 
 chrome.runtime.onInstalled.addListener(() => {
   // ShowAction only enables the action where a rule matches; it never disables
@@ -32,11 +33,33 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
+function bytesToBase64(bytes: Uint8Array): string {
+  let s = '';
+  const CHUNK = 0x8000;
+  for (let i = 0; i < bytes.length; i += CHUNK) s += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+  return btoa(s);
+}
+
 chrome.runtime.onMessage.addListener((msg: Message, _sender, sendResponse) => {
-  if (msg?.type !== 'save-fallback') return false;
-  chrome.downloads
-    .download({ url: msg.dataUrl, filename: msg.filename, saveAs: false })
-    .then(() => sendResponse({ ok: true }))
-    .catch((e: unknown) => sendResponse({ ok: false, error: e instanceof Error ? e.message : String(e) }));
-  return true;
+  if (msg?.type === 'save-fallback') {
+    chrome.downloads
+      .download({ url: msg.dataUrl, filename: msg.filename, saveAs: false })
+      .then(() => sendResponse({ ok: true }))
+      .catch((e: unknown) => sendResponse({ ok: false, error: e instanceof Error ? e.message : String(e) }));
+    return true;
+  }
+  if (msg?.type === 'fetch-photo') {
+    // ADR-0007: only for adapters marked fetchVia: 'worker', only URLs the
+    // adapter took from the page, only on the user's click. host_permissions
+    // limits which hosts this can reach at all.
+    fetch(msg.url, { credentials: 'omit' })
+      .then(async (r) => {
+        if (!r.ok) return sendResponse({ ok: false, status: r.status } satisfies FetchPhotoResponse);
+        const bytes = new Uint8Array(await r.arrayBuffer());
+        sendResponse({ ok: true, status: r.status, base64: bytesToBase64(bytes) } satisfies FetchPhotoResponse);
+      })
+      .catch((e: unknown) => sendResponse({ ok: false, status: 0, error: e instanceof Error ? e.message : String(e) } satisfies FetchPhotoResponse));
+    return true;
+  }
+  return false;
 });

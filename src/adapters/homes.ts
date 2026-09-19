@@ -14,6 +14,10 @@
 // Size codes observed: 104 (thumb), 115 (325x217), 117 (650x433), 111 (1240x826), 214.
 // toLargest rewrites the code to 111 — the largest the page itself served.
 // Fixture: fixtures/homes/x0000000000000/, human-captured.
+//
+// images.homes.com sends no Access-Control-Allow-Origin, so a page-origin
+// fetch is blocked (verified live 2026-09-19); photos are fetched by the
+// service worker and relayed (ADR-0007), hence fetchVia: 'worker'.
 
 import type { SiteAdapter, Listing, PhotoRef } from './types';
 
@@ -91,4 +95,4 @@ function extract(doc: Document): Listing & { source: Source; expectedCount?: num
   return { ...base, source: 'none' };
 }
 
-export const homesAdapter: SiteAdapter = { site: 'homes', matches, extract };
+export const homesAdapter: SiteAdapter = { site: 'homes', matches, extract, fetchVia: 'worker' };
