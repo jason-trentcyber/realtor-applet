@@ -4,6 +4,8 @@ Status: decided 2026-09-18.
 
 Amended 2026-09-18 (status note, decision clauses unchanged): the Context paragraph below guessed realtor.com's size token as a `-w480_h360` suffix. The first human-captured fixture (`fixtures/realtor/M0000000001/`) shows the real shape is `ap.rdcpix.com/<32 hex>l-m<id>` followed by a size token — `s.jpg` in the embedded JSON, `rd-w<W>_h<H>.(webp|jpg)` in the DOM, `rd-w2048_h1536.jpg` the largest served. §3 already required the rule to be a fixture-backed pure function, which is what caught the guess. The gallery JSON path is `props.pageProps.initialReduxState.propertyDetails.photos[].href`; `augmented_gallery` is the same photos bucketed by room and is ignored.
 
+Amended 2026-09-19 (status note, decision clauses unchanged): Zillow. The photo array is `#__NEXT_DATA__` → `props.pageProps.componentProps.gdpClientCache` (a JSON *string*) → `<query key>.property.responsivePhotos[]`, not `hdpApolloPreloadedData`. Each photo lists every rendition with its width in `mixedSources.jpeg[]` (192…1536), so §3's "largest" for Zillow is the widest URL the page itself names — no token rewriting. The DOM gallery is `[data-testid="hollywood-gallery-images-tile-list"]`; the gist's `ul.media-stream` selector no longer exists. The cache's `zpid` may differ from the address-bar zpid (re-listing); the adapter reports the property's own zpid. Fixture: `fixtures/zillow/Z1000000001/`.
+
 ## Context
 The gallery DOM on all three sites is lazy: only photos that have scrolled into view exist as `<img>`/`<source>` nodes, and they carry thumbnail-sized URLs. The Zillow gist works around this by instructing the user to "scroll through all images first" and then taking the last `srcset` entry. That is fragile and manual.
 

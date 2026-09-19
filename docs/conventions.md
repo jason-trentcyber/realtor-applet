@@ -63,6 +63,7 @@ The owning ADR for each directory is in `CLAUDE.md`. Read it before editing.
 Run on the listing page in the human's browser, never an agent's. One snippet per site, kept next to the fixtures; each prunes to what the adapter reads and replaces the photo hash and address with fake values before anything reaches the clipboard.
 
 - realtor.com: `fixtures/realtor/capture.js` → `next-data.json` + `gallery.html` under `fixtures/realtor/M<10 digits>/`.
-- Zillow, homes.com: written with those milestones (the realtor one is the template).
+- Zillow: `fixtures/zillow/capture.js` → downloads `zillow-fixture.json` (both parts in one file) → `fixtures/zillow/Z<10 digits>/`.
+- homes.com: written with that milestone (the two above are the template).
 
 Before committing, read the paste: no street name, no person's name, no real photo hash, no key the adapter does not read.
