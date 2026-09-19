@@ -10,6 +10,8 @@ export interface ProbeResponse {
   site: string;
   found: number;
   listingId: string;
+  /** Page states this many photos but fewer are in the DOM — ask the user to open the viewer. */
+  expectedCount?: number;
 }
 
 export interface DownloadRequest {

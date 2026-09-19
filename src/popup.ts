@@ -52,7 +52,11 @@ async function init() {
     return;
   }
 
-  setStatus(`Found ${probe.found} photos.`);
+  if (probe.expectedCount && probe.found < probe.expectedCount) {
+    setStatus(`${probe.found} of ${probe.expectedCount} photos are loaded. Open the photo viewer (click the main photo), then click the icon again to save all ${probe.expectedCount}.`);
+  } else {
+    setStatus(`Found ${probe.found} photos.`);
+  }
   button.hidden = false;
   button.onclick = async () => {
     button.disabled = true;

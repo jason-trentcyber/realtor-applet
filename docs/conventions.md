@@ -64,6 +64,6 @@ Run on the listing page in the human's browser, never an agent's. One snippet pe
 
 - realtor.com: `fixtures/realtor/capture.js` → `next-data.json` + `gallery.html` under `fixtures/realtor/M<10 digits>/`.
 - Zillow: `fixtures/zillow/capture.js` → downloads `zillow-fixture.json` (both parts in one file) → `fixtures/zillow/Z<10 digits>/`.
-- homes.com: written with that milestone (the two above are the template).
+- homes.com: `fixtures/homes/capture.js` → open the full-screen viewer first → downloads `homes-fixture.json` → `carousel.html` + `gallery-modal.html` under `fixtures/homes/x<13 chars>/`. DOM-only: this site embeds no photo list, and its image filenames carry the street address — check the paste.
 
 Before committing, read the paste: no street name, no person's name, no real photo hash, no key the adapter does not read.

@@ -23,7 +23,10 @@ export interface SiteAdapter {
   /**
    * Return the listing, or photos: [] when the markup has changed — never throw
    * (ADR-0002 §5). `source` records which path produced the photos so a partial
-   * gallery is explainable.
+   * gallery is explainable. `expectedCount` is set when the page states how many
+   * photos the gallery has but fewer are present in the DOM (a site with no
+   * embedded photo list, whose viewer loads on click); the popup then asks the
+   * user to open the viewer before saving.
    */
-  extract(doc: Document): Listing & { source: 'json' | 'dom' | 'none' };
+  extract(doc: Document): Listing & { source: 'json' | 'dom' | 'none'; expectedCount?: number };
 }
