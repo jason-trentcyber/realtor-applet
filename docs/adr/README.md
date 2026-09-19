@@ -10,3 +10,4 @@ Format: context, decision, consequences, alternatives rejected. One file per dec
 | 0004 | Distribution: GitHub Release zip loaded unpacked; no Chrome Web Store | decided |
 | 0005 | AI-first SDLC here: frontdesk's mechanics with a Gemini Flash full-context review agent, fixture tests as the eval gate, no ops loop | decided |
 | 0006 | Toolchain: TypeScript, esbuild, Vitest, `fflate`, trimmed anonymised fixtures | decided |
+| 0007 | Service-worker fetch relay for CDNs that refuse page-origin fetch (supersedes one ADR-0001 clause; homes.com) | decided |

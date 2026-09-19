@@ -42,4 +42,18 @@ export interface SaveFallbackRequest {
   dataUrl: string;
 }
 
-export type Message = ProbeRequest | DownloadRequest | ProgressMessage | SaveFallbackRequest;
+/** Content script -> service worker: fetch one photo for a CDN that refuses page-origin fetch (ADR-0007). */
+export interface FetchPhotoRequest {
+  type: 'fetch-photo';
+  url: string;
+}
+
+export interface FetchPhotoResponse {
+  ok: boolean;
+  status: number;
+  /** Base64 body when ok; messages must be JSON-serialisable. */
+  base64?: string;
+  error?: string;
+}
+
+export type Message = ProbeRequest | DownloadRequest | ProgressMessage | SaveFallbackRequest | FetchPhotoRequest;

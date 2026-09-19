@@ -14,8 +14,8 @@ A Chrome (Manifest V3) extension that saves the photo gallery of a real-estate l
 | Path | Governing ADR(s) | Notes |
 |---|---|---|
 | `src/adapters/<site>.ts` | 0001 architecture, 0002 photo source | One file per site: `matches()`, `extract()` (JSON-first, DOM fallback), `toLargest()`. `listingId`/`address`/photo array. Add a site = new adapter + fixtures + tests; the core does not change. |
-| `src/*.ts` core | 0001 architecture | Content script fetches (concurrency 4) → `fflate` zip → `<a download>`; popup is display-only; activation by `declarativeContent` (see URL patterns in 0001 §2). |
-| `manifest.json` | 0001, 0004 | Permissions stay minimal: `activeTab`, `scripting`, `declarativeContent`, `downloads`. `version` must match the tag for releases (0004). |
+| `manifest.json` | 0001, 0004, 0007 | Permissions stay minimal: `activeTab`, `scripting`, `declarativeContent`, `downloads`, plus `host_permissions` for exactly the image CDNs that refuse page-origin fetch (0007; today `images.homes.com`, `imagescdn.homes.com`). `version` must match the tag for releases (0004). |
+| `src/*.ts` core | 0001 architecture, 0007 fetch relay | Content script fetches (concurrency 4) → `fflate` zip → `<a download>`; popup is display-only; activation by `declarativeContent` (see URL patterns in 0001 §2). Adapters with `fetchVia: 'worker'` get their bytes through the service worker (0007). |
 | `fixtures/*` | 0002, 0003, 0006 | Human-captured, trimmed, anonymised, never full page HTML. Agents do NOT fetch listing pages (0003 §4). A fixture change is a human commit. |
 | `docs/` | 0005, 0006 | ADRs, governance, conventions, review rubric. |
 | `.github/` | 0005 | `pr-lint` (provenance), `review-agent` (Gemini Flash, full context), `ci` (lint/typecheck/test/build). |

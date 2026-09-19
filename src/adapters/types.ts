@@ -21,6 +21,13 @@ export interface SiteAdapter {
   /** Whether this URL is a detail page for this site (ADR-0001 §2). */
   matches(url: string): boolean;
   /**
+   * How photo bytes are fetched. 'page' (default): the content script fetches
+   * from the page's origin (ADR-0001 §4). 'worker': the CDN refuses page-origin
+   * fetch, so the service worker fetches and relays the bytes; needs a
+   * host_permissions entry for that CDN (ADR-0007).
+   */
+  fetchVia?: 'page' | 'worker';
+  /**
    * Return the listing, or photos: [] when the markup has changed — never throw
    * (ADR-0002 §5). `source` records which path produced the photos so a partial
    * gallery is explainable. `expectedCount` is set when the page states how many

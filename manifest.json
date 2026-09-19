@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "version_name": "0.1.0 (scaffold)",
   "permissions": ["activeTab", "scripting", "declarativeContent", "downloads"],
+  "host_permissions": ["https://images.homes.com/*", "https://imagescdn.homes.com/*"],
   "background": { "service_worker": "background.js" },
   "content_scripts": [
     {
