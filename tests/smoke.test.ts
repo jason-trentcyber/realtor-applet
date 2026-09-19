@@ -10,8 +10,8 @@ describe('adapter registry', () => {
   it('does not match a non-detail URL', () => {
     expect(findAdapterForUrl('https://www.realtor.com/homes-for-sale')).toBeUndefined();
   });
-  it('does not match a different site detail URL', () => {
-    expect(findAdapterForUrl('https://www.zillow.com/homedetails/123')).toBeUndefined();
+  it('does not match a site with no adapter', () => {
+    expect(findAdapterForUrl('https://www.homes.com/property/123')).toBeUndefined();
   });
 });
 

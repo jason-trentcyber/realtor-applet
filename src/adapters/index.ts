@@ -3,8 +3,9 @@
 
 import type { SiteAdapter } from './types';
 import { realtorAdapter } from './realtor';
+import { zillowAdapter } from './zillow';
 
-export const adapters: SiteAdapter[] = [realtorAdapter];
+export const adapters: SiteAdapter[] = [realtorAdapter, zillowAdapter];
 
 export function findAdapterForUrl(url: string): SiteAdapter | undefined {
   return adapters.find((a) => a.matches(url));
