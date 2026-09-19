@@ -3,15 +3,22 @@
   <head>
     <meta charset="utf-8" />
     <style>
-      body { font-family: system-ui, sans-serif; width: 280px; padding: 12px; }
+      body { font-family: system-ui, sans-serif; width: 280px; padding: 12px; margin: 0; }
       h1 { font-size: 13px; margin: 0 0 8px; }
       p { font-size: 12px; margin: 4px 0; }
-      button { display: none; } /* ships with the download flow */
+      button { font: inherit; font-size: 12px; padding: 6px 10px; margin-top: 8px; cursor: pointer; }
+      button[hidden] { display: none; }
+      button:disabled { cursor: default; opacity: 0.6; }
+      a { color: #1a5fb4; }
+      progress { width: 100%; margin-top: 8px; }
+      progress[hidden] { display: none; }
     </style>
   </head>
   <body>
     <h1>Listing Photo Saver</h1>
     <p id="status">Loading…</p>
+    <progress id="progress" max="1" value="0" hidden></progress>
+    <button id="download" hidden>Save photos as ZIP</button>
   </body>
   <script src="popup.js"></script>
 </html>

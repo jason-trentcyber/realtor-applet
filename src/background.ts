@@ -1,5 +1,8 @@
-// Service worker (ADR-0001 §4): activation rules only, plus the icon state.
-// All work happens in the content script / popup.
+// Service worker (ADR-0001 §4): activation rules, the icon state, and the one
+// relay the content script cannot do itself (chrome.downloads is not exposed
+// to content scripts). No fetching, no page logic.
+
+import type { Message } from './messages';
 
 chrome.runtime.onInstalled.addListener(() => {
   // ShowAction only enables the action where a rule matches; it never disables
@@ -27,4 +30,13 @@ chrome.runtime.onInstalled.addListener(() => {
       },
     ]);
   });
+});
+
+chrome.runtime.onMessage.addListener((msg: Message, _sender, sendResponse) => {
+  if (msg?.type !== 'save-fallback') return false;
+  chrome.downloads
+    .download({ url: msg.dataUrl, filename: msg.filename, saveAs: false })
+    .then(() => sendResponse({ ok: true }))
+    .catch((e: unknown) => sendResponse({ ok: false, error: e instanceof Error ? e.message : String(e) }));
+  return true;
 });
