@@ -10,14 +10,16 @@ It does what "Save image as…" does, for every photo in the gallery at once: th
 
 1. Download `listing-photo-saver-<version>.zip` from the latest [GitHub Release](../../releases) and unzip it.
 2. Open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked**, pick the unzipped folder.
-3. Open a listing detail page. The toolbar icon lights up; click it, then **Download ZIP**.
+3. Open a listing detail page. The toolbar icon becomes active; click it, then **Save photos as ZIP**. On homes.com, open the site's full-screen photo viewer first (click the main photo) — that site only loads the gallery on demand; the popup tells you when this is needed.
+
+Chrome will list "read and change your data on images.homes.com and imagescdn.homes.com": that CDN refuses page-origin fetches, so the extension's background script fetches homes.com photos instead ([ADR-0007](docs/adr/0007-worker-fetch-relay.md)). No other host permission is requested.
 
 Not on the Chrome Web Store, by decision ([ADR-0004](docs/adr/0004-distribution.md)). Chrome only ([ADR-0001](docs/adr/0001-extension-architecture.md)).
 
 ## How it works, briefly
 
 - Active only on detail-page URLs (`declarativeContent`); nothing is injected into the page's UI.
-- A per-site **adapter** reads the listing's embedded JSON first and falls back to the gallery DOM, then rewrites CDN URLs to the largest size ([ADR-0002](docs/adr/0002-photo-source.md)).
+- A per-site **adapter** reads the listing's embedded JSON first and falls back to the gallery DOM, then rewrites CDN URLs to the largest size the site serves ([ADR-0002](docs/adr/0002-photo-source.md)). What each site actually embeds turned out to differ from the ADR's first guess three times out of three; the status notes on that ADR record what the fixtures showed.
 - The content script fetches the photos, zips them with `fflate`, and hands the zip to the browser's normal download path.
 - The zip is `<address>_<site>_<id>.zip` containing `01.jpg … NN.jpg` and a `listing.json` manifest (source URL, per-photo status). A missing photo is recorded, never fatal.
 - Zero photos on a matching URL means the site changed its markup: the popup says so and offers a prefilled issue link (URL only, never page content).
