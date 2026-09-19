@@ -53,7 +53,10 @@ export function slugify(text: string): string {
 }
 
 export function zipName(listing: Pick<Listing, 'site' | 'listingId' | 'address'>): string {
-  const id = listing.listingId || 'unknown';
+  // listingId and address come from page-controlled data: reduce both to
+  // [a-z0-9-] so no path separator, dot-segment or control character can
+  // reach the filename (review rubric item 6).
+  const id = listing.listingId.replace(/[^a-z0-9]+/gi, '').toLowerCase().slice(0, 40) || 'unknown';
   return `${slugify(listing.address)}_${listing.site}_${id}.zip`;
 }
 

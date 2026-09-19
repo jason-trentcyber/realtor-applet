@@ -41,6 +41,12 @@ describe('naming (F4)', () => {
     expect(zipName(listing)).toBe('123-away-st-springfield-xx_realtor_0000000001.zip');
     expect(zipName({ site: 'realtor', listingId: '', address: '' })).toBe('listing_realtor_unknown.zip');
   });
+  it('never lets page-controlled id/address put a path into the filename (rubric 6)', () => {
+    const name = zipName({ site: 'realtor', listingId: '../../etc/passwd', address: '..\\..\\C:\\Windows' });
+    expect(name).toBe('c-windows_realtor_etcpasswd.zip');
+    expect(name).not.toMatch(/[\\/]|\.\./);
+    expect(zipName({ site: 'realtor', listingId: 'M1\u0000\n', address: 'x' })).toBe('x_realtor_m1.zip');
+  });
   it('numbers entries in gallery order with a width that fits the gallery', () => {
     expect(entryName(0, 6, photo(1).url)).toBe('01.jpg');
     expect(entryName(9, 120, photo(1).url)).toBe('010.jpg');
